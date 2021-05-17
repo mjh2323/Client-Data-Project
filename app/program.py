@@ -1,8 +1,10 @@
+#program.py
+
 html_content = "Please find the data attached. Have a nice day!"
 print("HTML:", html_content)
 
 
-def send_email(subject= subject, html_content = html_content, pdf= "all_data.pdf"):
+def send_email(subject= subject, html_content = html_content, pdf= 'CLIENT_DATA.pdf'):
     client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
     message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS, subject=subject, html_content=html_content)
     #attaches the PDF we generated earlier
@@ -14,7 +16,7 @@ def send_email(subject= subject, html_content = html_content, pdf= "all_data.pdf
     attachment = Attachment()
     attachment.file_content = FileContent(encoded)
     attachment.file_type = FileType('application/pdf')
-    attachment.file_name = FileName('all_data.pdf')
+    attachment.file_name = FileName('CLIENT_DATA.pdf')
     attachment.disposition = Disposition('attachment')
     attachment.content_id = ContentId('Example Content ID')
     message.attachment = attachment
@@ -33,7 +35,7 @@ if __name__ == "__main__":
     <h3> Welcome to Juicy Lifts! </h3>
     <p> Attached to this email you will find a PDF with a workout that addresses your specific fitness needs. Time to hit the gym! </p>
     """
-    email_pdf = "all_data.pdf"
+    email_pdf = 'CLIENT_DATA.pdf'
     #send my message to users
     send_email(email_subject, email_html, email_pdf)
     print(" ")
