@@ -1,0 +1,6 @@
+#requirements
+
+python-dotenv
+requests
+sendgrid
+fpdf

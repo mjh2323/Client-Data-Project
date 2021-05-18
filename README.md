@@ -6,5 +6,6 @@ conda create -n project.env
 conda activate project.env
 ```
 
-
-pip install fpdf
+```sh
+pip install -r requirements.txt
+```
