@@ -19,6 +19,8 @@ print('------------------------------------------------------------------')
 print()
 
 
+
+
 #send email function 
 
 load_dotenv()
@@ -32,12 +34,13 @@ subject = "Your Requested Client Data"
 
 html_content = "Please find the data attached. Have a nice day!"
 
+email_pdf = {"CLIENT_DATA.pdfa", "NewYork_Data.pdf","London_Data.pdf", "SanFrancisco_Data.pdf", "Chicago_Data.pdf", "HK_Data.pdf", "Chicago_Data.pdf", "ABC_DATA.pdf", "BizCo_DATA.pdf", "123Co_DATA.pdf", "MoneyCorp_DATA.pdf",}
 
-def send_email(subject= subject, html_content = html_content, pdf= "CLIENT_DATA.pdf"):
+def send_email(subject= subject, html_content = html_content, pdf = email_pdf):
     client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
     message = Mail(from_email=SENDER_ADDRESS, to_emails=SENDER_ADDRESS, subject=subject, html_content=html_content)
     #attaches the PDF we generated earlier
-    file_path = 'CLIENT_DATA.pdf'
+    file_path = email_pdf
     with open(file_path, 'rb') as f:
         data = f.read()
         f.close()
@@ -45,7 +48,7 @@ def send_email(subject= subject, html_content = html_content, pdf= "CLIENT_DATA.
     attachment = Attachment()
     attachment.file_content = FileContent(encoded)
     attachment.file_type = FileType('application/pdf')
-    attachment.file_name = FileName('CLIENT_DATA.pdf')
+    attachment.file_name = FileName("email_pdf")
     attachment.disposition = Disposition('attachment')
     attachment.content_id = ContentId('Example Content ID')
     message.attachment = attachment
@@ -61,32 +64,32 @@ def send_email(subject= subject, html_content = html_content, pdf= "CLIENT_DATA.
 
 #Collect user inputs 
 
-while True:
-    print("You can view all data, or select by region or company.")
-    Choice_1 = input("If you would like to see all data, please enter ALL. Otherwise, enter OTHER. ")
-    if Choice_1 == "ALL" or "all":
-        print("An email with all client data attached will be in your inbox shortly.")
-        break
-    elif Choice_1 == "OTHER" or "other":
-        Choice_2 = input("Would you like to specify by region or company? ")
+company_choice = None
+
+print("You can view all data, or select by region or company.")
+Choice_1 = input("If you would like to see all data, please enter ALL. Otherwise, enter OTHER. ")
+if Choice_1 == "ALL":
+    print("An email with all client data attached will be in your inbox shortly.")
+elif Choice_1 == "OTHER":
+    print("You have selected Other.")
+    Choice_2 = input("Would you like to specify by region or company? ")
+    if Choice_2 == "Region":
+        print("The regions are as follows: (New York, NY; San Francisco, CA; Hong Kong; Chicago, IL; London, UK; Washington, DC). ")
+        region_choice = input("Please select a region from the list above. ")
+        print("You have selected {region_choice}. An email will be in your inbox shortly.")
         
-        if Choice_2 == "Region" or "region" or "REGION":
-            print("The regions are as follows: (New York, NY; San Francisco, CA; Hong Kong; Chicago, IL; London, UK; Washington, DC). ")
-            region_choice = input("Please select a region from the list above. ")
-            print("You have selected {region_choice}. An email will be in your inbox shortly.")
-            break
-        elif Choice_2 == "Company" or "company" or "COMPANY":
-            print("The companies present include: (Company ABC; Biz Co; Money Corp; 123 Co).")
-            company_choice = input("Please select a company from the list above. ")
-            print("You have selected {company_choice}. An email will be in your inbox shortly.")
-            break
-        else:
-            print("Please choose from the list above.")
-    else: 
+    elif Choice_2 == "Company":
+        print("The companies present include: (Company ABC; Biz Co; Money Corp; 123 Co).")
+        company_choice = input("Please select a company from the list above. ")
+        print("You have selected {company_choice}. An email will be in your inbox shortly.")
+      
+    else:
         print("Please choose from the list above.")
+else: 
+    print("Please choose from the list above.")
 
 
-if Choice_1 == "ALL" or "all":
+if Choice_1 == "ALL":
     email_subject = "Your Requested Client Data"
     email_html = f""" 
     <h3> Your data is attached! </h3>
@@ -256,6 +259,7 @@ html_content = "Please find the data attached. Have a nice day!"
 print("HTML:", html_content)
 
   
+
 
 
 
